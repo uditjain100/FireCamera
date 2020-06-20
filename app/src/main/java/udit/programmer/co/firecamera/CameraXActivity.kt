@@ -1,16 +1,22 @@
 package udit.programmer.co.firecamera
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.util.Rational
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.camera.core.*
 import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
 import kotlinx.android.synthetic.main.activity_camera_x.*
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.concurrent.Executor
 
 class CameraXActivity : AppCompatActivity(), Executor {
@@ -19,6 +25,7 @@ class CameraXActivity : AppCompatActivity(), Executor {
     }
 
     val activity: CameraXActivity = this
+    private lateinit var currentPhotoPath: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,13 +58,24 @@ class CameraXActivity : AppCompatActivity(), Executor {
         }.build()
         val imageCapture = ImageCapture(imageConfig)
         camera_capture_button.setOnClickListener {
-            val fileName = "${System.currentTimeMillis()}.jpg"
-            val file = File(externalMediaDirs.firstOrNull(), fileName)
+//            val fileName = "${System.currentTimeMillis()}.jpg"
+            val file = createImageFile()
+            val photoUri = FileProvider.getUriForFile(
+                this,
+                "com.example.android.fileprovider",
+                file
+            )
             imageCapture.takePicture(file, object : ImageCapture.OnImageSavedListener {
                 override fun onImageSaved(file: File) {
                     activity.runOnUiThread {
                         Toast.makeText(this@CameraXActivity, "Image Captured", Toast.LENGTH_LONG)
                             .show()
+                        startActivity(
+                            Intent(
+                                this@CameraXActivity,
+                                DisplayActivity::class.java
+                            ).putExtra("Ceased Meteor", currentPhotoPath)
+                        )
                     }
                 }
 
@@ -91,6 +109,16 @@ class CameraXActivity : AppCompatActivity(), Executor {
         }
 
         CameraX.bindToLifecycle(this, preview, imageCapture)
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun createImageFile(): File {
+        val format = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val imageFileName = "JPEG_${format}_"
+        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val image = File.createTempFile(imageFileName, ".jpg", storageDir)
+        currentPhotoPath = image.absolutePath
+        return image
     }
 
 }

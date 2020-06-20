@@ -25,6 +25,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, BitmapActivity::class.java))
         }
 
+        HD_btn.setOnClickListener {
+            startActivity(Intent(this, HDActivity::class.java))
+        }
+
         camerax_btn.setOnClickListener {
             startActivity(Intent(this, CameraXActivity::class.java))
         }
