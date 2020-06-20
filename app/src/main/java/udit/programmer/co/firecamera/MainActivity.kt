@@ -25,6 +25,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, BitmapActivity::class.java))
         }
 
+        camerax_btn.setOnClickListener {
+            startActivity(Intent(this, CameraXActivity::class.java))
+        }
 
     }
 
