@@ -27,6 +27,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, TextRecognizerActivity::class.java))
         }
 
+        firebase_btn.setOnClickListener {
+            startActivity(Intent(this, FirebaseActivity::class.java))
+        }
+
     }
 
 }
