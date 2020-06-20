@@ -14,7 +14,16 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
+import com.google.firebase.ml.vision.FirebaseVision
+import com.google.firebase.ml.vision.common.FirebaseVisionImage
+import com.google.firebase.ml.vision.text.FirebaseVisionText
+import kotlinx.android.synthetic.main.activity_bitmap.*
 import kotlinx.android.synthetic.main.activity_h_d.*
+import kotlinx.android.synthetic.main.activity_h_d.display_btn
+import kotlinx.android.synthetic.main.activity_h_d.image_display
+import kotlinx.android.synthetic.main.activity_h_d.image_name_tv
+import kotlinx.android.synthetic.main.activity_h_d.snap_btn
+import kotlinx.android.synthetic.main.activity_h_d.text_recognizer_btn
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -72,7 +81,34 @@ class HDActivity : AppCompatActivity() {
         display_btn.setOnClickListener {
             image_display.setImageURI(Uri.fromFile(File(currentPhotoPath)))
             image_name_tv.text = "Image Displayed"
+            textRecognizingWork()
         }
+    }
+
+    private fun textRecognizingWork() {
+        text_recognizer_btn.setOnClickListener {
+            recognizing_work()
+        }
+    }
+
+    private fun recognizing_work() {
+        val image = FirebaseVisionImage.fromFilePath(this, Uri.fromFile(File(currentPhotoPath)))
+        val recognizer = FirebaseVision.getInstance().cloudTextRecognizer
+        recognizer.processImage(image).addOnSuccessListener {
+            process_Image(it)
+        }.addOnFailureListener {
+            Toast.makeText(this, "Failed :(", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun process_Image(it: FirebaseVisionText?) {
+        val blocks = it!!.textBlocks
+        if (blocks.size == 0) {
+            Toast.makeText(this, "No Text :(", Toast.LENGTH_LONG).show()
+            return
+        }
+        for (block in blocks)
+            image_name_tv.text = block.text
     }
 
     @SuppressLint("SimpleDateFormat")

@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="20dp"
-        android:weightSum="2">
+        android:weightSum="3">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/snap_btn"
@@ -63,6 +63,20 @@
             android:backgroundTint="@color/YellowGreen"
             android:gravity="center"
             android:text="Display"
+            app:cornerRadius="40dp"
+            app:rippleColor="@color/Yellow"
+            app:strokeColor="@color/Black"
+            app:strokeWidth="2dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/text_recognizer_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/YellowGreen"
+            android:gravity="center"
+            android:text="Text"
             app:cornerRadius="40dp"
             app:rippleColor="@color/Yellow"
             app:strokeColor="@color/Black"

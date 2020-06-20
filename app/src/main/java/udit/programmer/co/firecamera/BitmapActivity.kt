@@ -8,12 +8,18 @@ import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.google.firebase.ml.vision.FirebaseVision
+import com.google.firebase.ml.vision.common.FirebaseVisionImage
+import com.google.firebase.ml.vision.text.FirebaseVisionText
+import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer
 import kotlinx.android.synthetic.main.activity_bitmap.*
 
 class BitmapActivity : AppCompatActivity() {
 
-    private lateinit var bitmap: Bitmap
+    lateinit var bitmap: Bitmap
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bitmap)
@@ -55,7 +61,35 @@ class BitmapActivity : AppCompatActivity() {
             bitmap = data!!.extras!!.get("data") as Bitmap
             image_display.setImageBitmap(bitmap)
             image_name_tv.text = "Image Displayed"
+            textRecognizingWork()
         }
     }
+
+    private fun textRecognizingWork() {
+        text_recognizer_btn.setOnClickListener {
+            recognizing_work()
+        }
+    }
+
+    private fun recognizing_work() {
+        val image = FirebaseVisionImage.fromBitmap(bitmap)
+        val recognizer = FirebaseVision.getInstance().cloudTextRecognizer
+        recognizer.processImage(image).addOnSuccessListener {
+            process_Image(it)
+        }.addOnFailureListener {
+            Toast.makeText(this, "Failed :(", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun process_Image(it: FirebaseVisionText?) {
+        val blocks = it!!.textBlocks
+        if (blocks.size == 0) {
+            Toast.makeText(this, "No Text :(", Toast.LENGTH_LONG).show()
+            return
+        }
+        for (block in blocks)
+            image_name_tv.text = block.text
+    }
+
 
 }
