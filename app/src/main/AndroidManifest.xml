@@ -18,14 +18,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".TextRecognizerActivity"></activity>
         <activity android:name=".DisplayActivity" />
-        <activity android:name=".HDActivity" >
+        <activity android:name=".HDActivity">
             <meta-data
                 android:name="com.google.firebase.ml.vision.DEPENDENCIES"
                 android:value="ocr" />
         </activity>
         <activity android:name=".CameraXActivity" />
-        <activity android:name=".BitmapActivity" >
+        <activity android:name=".BitmapActivity">
             <meta-data
                 android:name="com.google.firebase.ml.vision.DEPENDENCIES"
                 android:value="ocr" />
@@ -37,6 +38,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="ocr" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
