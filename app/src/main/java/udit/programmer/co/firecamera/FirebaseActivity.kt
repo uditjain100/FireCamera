@@ -16,12 +16,13 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.activity_firebase.*
+import java.lang.Exception
 import java.net.URI
 
 class FirebaseActivity : AppCompatActivity() {
 
     lateinit var firebaseStorage: StorageReference
-    var uri: Uri? = null
+    var snapShot: UploadTask.TaskSnapshot? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,8 +48,7 @@ class FirebaseActivity : AppCompatActivity() {
             pick_btn.setOnClickListener {
                 selectionWork()
             }
-            if (uri != null)
-                retrievingWork(uri)
+            retrievingWork()
         }
 
     }
@@ -70,20 +70,29 @@ class FirebaseActivity : AppCompatActivity() {
     private fun uploadingWork(data: Intent?) {
         upload_btn.setOnClickListener {
             val filePath = firebaseStorage.child("Photos").child(data!!.data!!.lastPathSegment!!)
-            filePath.putFile(data.data!!).addOnSuccessListener {
+            filePath.putFile(data.data!!).addOnCompleteListener {
                 Toast.makeText(this, "Uploaded Successfully :)", Toast.LENGTH_LONG).show()
                 image_name_tv.text = "Uploaded Successfully :)"
-                uri = it.storage.downloadUrl.result!!
+                if (it.isComplete)
+                    snapShot = it.result
             }.addOnFailureListener {
                 Toast.makeText(this, "Failed :(", Toast.LENGTH_LONG).show()
             }
         }
     }
 
-    private fun retrievingWork(uri: Uri?) {
+    private fun retrievingWork() {
         retrieve_btn.setOnClickListener {
-            image_display.setImageURI(uri)
-            image_name_tv.text = "Retrieved Successfully :)"
+            if (snapShot != null) {
+                try {
+                    image_display.setImageURI(snapShot!!.storage.downloadUrl.result!!)
+                    image_name_tv.text = "Retrieved Successfully :)"
+                } catch (e: Exception) {
+                    Toast.makeText(this, "Error : $e   :(", Toast.LENGTH_LONG).show()
+                }
+            } else {
+                Toast.makeText(this, "No Image :(", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
