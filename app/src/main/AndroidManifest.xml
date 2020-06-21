@@ -18,6 +18,11 @@
         android:roundIcon="@drawable/ic_baseline_camera_24"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".FaceActivity">
+            <meta-data
+                android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+                android:value="face" />
+        </activity>
         <activity android:name=".ImageLabelActivity">
             <meta-data
                 android:name="com.google.firebase.ml.vision.DEPENDENCIES"

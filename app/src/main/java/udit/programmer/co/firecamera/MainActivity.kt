@@ -35,6 +35,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, ImageLabelActivity::class.java))
         }
 
+        face_btn.setOnClickListener {
+            startActivity(Intent(this, FaceActivity::class.java))
+        }
+
     }
 
 }
