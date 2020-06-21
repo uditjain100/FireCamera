@@ -58,7 +58,8 @@ class TextRecognizerActivity : AppCompatActivity() {
         recognizer.processImage(image).addOnSuccessListener {
             process_Image(it)
         }.addOnFailureListener {
-            Toast.makeText(this, "Failed :(", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Failed $it :(", Toast.LENGTH_LONG).show()
+            image_name_tv.text = it.toString()
         }
     }
 

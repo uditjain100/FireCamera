@@ -18,7 +18,12 @@
         android:roundIcon="@drawable/ic_baseline_camera_24"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FirebaseActivity"></activity>
+        <activity android:name=".ImageLabelActivity">
+            <meta-data
+                android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+                android:value="label" />
+        </activity>
+        <activity android:name=".FirebaseActivity" />
         <activity android:name=".TextRecognizerActivity" />
         <activity android:name=".DisplayActivity" />
         <activity android:name=".HDActivity">

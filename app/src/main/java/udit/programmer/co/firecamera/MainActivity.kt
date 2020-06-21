@@ -31,6 +31,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, FirebaseActivity::class.java))
         }
 
+        image_labelling_btn.setOnClickListener {
+            startActivity(Intent(this, ImageLabelActivity::class.java))
+        }
+
     }
 
 }

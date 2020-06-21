@@ -82,5 +82,20 @@
         app:strokeColor="@color/Black"
         app:strokeWidth="2dp" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/image_labelling_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/firebase_btn"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/YellowGreen"
+        android:gravity="center"
+        android:text="Label"
+        app:cornerRadius="40dp"
+        app:rippleColor="@color/Yellow"
+        app:strokeColor="@color/Black"
+        app:strokeWidth="2dp" />
+
 
 </RelativeLayout>
