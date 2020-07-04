@@ -39,6 +39,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, FaceActivity::class.java))
         }
 
+        pad_btn.setOnClickListener {
+            startActivity(Intent(this, PickAndDisplayActivity::class.java))
+        }
+
     }
 
 }
