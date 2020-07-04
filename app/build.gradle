@@ -47,6 +47,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
     implementation 'com.google.firebase:firebase-ml-vision-face-model:20.0.1'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
 //    implementation "androidx.camera:camera-lifecycle:${camerax_version}"
 //    implementation "androidx.camera:camera-view:${camerax_version}"
 //    implementation "androidx.camera:camera-extensions:${camerax_version}"
